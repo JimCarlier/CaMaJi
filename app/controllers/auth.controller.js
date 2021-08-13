@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
+const Profile = db.profile;
 
 const Op = db.Sequelize.Op;
 
@@ -13,7 +14,8 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
+   
   })
     .then(user => {
       if (req.body.roles) {
@@ -26,16 +28,19 @@ exports.signup = (req, res) => {
         }).then(roles => {
           user.setRoles(roles).then(() => {
             res.send({ message: "User was registered successfully!" });
-          });
+          })
+          
         });
       } else {
         // user role = 1
         user.setRoles([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
-        });
+        })
+        
       }
     })
     .catch(err => {
+      console.log('ces la')
       res.status(500).send({ message: err.message });
     });
 };
@@ -82,6 +87,8 @@ exports.signin = (req, res) => {
       });
     })
     .catch(err => {
+      console.log('C\'es ici')
       res.status(500).send({ message: err.message });
     });
 };
+

@@ -20,8 +20,9 @@ const db = require("./app/models");
 const Role = db.role;
 db.sequelize.sync().then(()=> {
   initial()
-});
-// // drop the table if it already exists
+})
+
+// drop the table if it already exists
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 //   initial();
@@ -52,6 +53,8 @@ app.get("/", (req, res) => {
 require("./app/routes/product.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/profile.routes')(app);
+require("./app/routes/test.routes")(app);
 
 
 // set port, listen for requests
